@@ -2,6 +2,8 @@
 
 🌐 **Languages / 多語言版本**: [繁體中文](README.md) | [English](README.en.md)
 
+✨ **Online Demo / 線上體驗**: [https://ivanusto.github.io/life-achievement-list/](https://ivanusto.github.io/life-achievement-list/)
+
 An interactive life milestone tracking journal that combines **achievement check-offs**, a **life domain footprint grid map**, and a **warm parchment-style scrapbook layout**. Designed for adventurers, creators, and everyone exploring the beautiful landscape of life!
 
 ---
