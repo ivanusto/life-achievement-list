@@ -30,11 +30,11 @@
     </script>
     <style>
         :root {
-            /* Cosmic Journal Theme (Dark Mode) */
+            /* Cosmic Journal Theme (Dark Mode) - Glassmorphism optimized */
             --bg-primary: #0c0e17;
-            --bg-card: #181c2d;
-            --bg-card-hover: #20253d;
-            --border-color: #2d3554;
+            --bg-card: rgba(24, 28, 45, 0.7);
+            --bg-card-hover: rgba(32, 37, 61, 0.8);
+            --border-color: rgba(255, 255, 255, 0.08);
             --border-color-active: #e67e22;
             --text-primary: #f3f4f6;
             --text-secondary: #9ca3af;
@@ -44,19 +44,20 @@
             --accent-gold: #f1c40f;
             --accent-purple: #9b59b6;
             --accent-green: #2ecc71;
-            --shadow-primary: rgba(0, 0, 0, 0.4);
+            --shadow-primary: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             --shadow-glow: rgba(230, 126, 34, 0.2);
             --washi-bg: radial-gradient(circle at 50% 50%, #1c2135 0%, #0c0e17 100%);
-            --header-gradient: linear-gradient(135deg, #181c2d 0%, #0c0e17 100%);
+            --header-gradient: linear-gradient(135deg, rgba(24, 28, 45, 0.7) 0%, rgba(12, 14, 23, 0.8) 100%);
             --font-mono: 'Outfit', sans-serif;
+            --backdrop-filter: blur(12px);
         }
 
         [data-theme="light"] {
-            /* Warm Parchment Theme (Light Mode) */
+            /* Warm Parchment Theme (Light Mode) - Glassmorphism optimized */
             --bg-primary: #fcfaf6;
-            --bg-card: #ffffff;
-            --bg-card-hover: #f5efe6;
-            --border-color: #e3dac9;
+            --bg-card: rgba(255, 255, 255, 0.75);
+            --bg-card-hover: rgba(245, 239, 230, 0.85);
+            --border-color: rgba(227, 218, 201, 0.5);
             --border-color-active: #d35400;
             --text-primary: #2c3e50;
             --text-secondary: #7f8c8d;
@@ -66,10 +67,27 @@
             --accent-gold: #d4ac0d;
             --accent-purple: #8e44ad;
             --accent-green: #27ae60;
-            --shadow-primary: rgba(227, 218, 201, 0.3);
+            --shadow-primary: 0 8px 32px 0 rgba(227, 218, 201, 0.25);
             --shadow-glow: rgba(211, 84, 0, 0.15);
             --washi-bg: radial-gradient(circle at 50% 50%, #ffffff 0%, #faf6f0 100%);
-            --header-gradient: linear-gradient(135deg, #ffffff 0%, #fcfaf6 100%);
+            --header-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.75) 0%, rgba(252, 250, 246, 0.8) 100%);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+            border: 2px solid var(--bg-primary);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-color-active);
         }
 
         * {
@@ -142,6 +160,27 @@
             animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
             backdrop-filter: blur(10px);
             color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent-gold);
+            width: 100%;
+            animation: toastProgressAnim 3.5s linear forwards;
+        }
+
+        [data-theme="light"] .toast-progress {
+            background: var(--accent-blue);
+        }
+
+        @keyframes toastProgressAnim {
+            from { width: 100%; }
+            to { width: 0%; }
         }
 
         [data-theme="light"] .toast-notification {
@@ -152,6 +191,8 @@
             border-right: 1px solid var(--border-color);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
             color: var(--text-primary);
+            position: relative;
+            overflow: hidden;
         }
 
         @keyframes slideIn {
@@ -303,7 +344,7 @@
 
         .card {
             background: var(--bg-card);
-            border: 2px solid var(--border-color);
+            border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 24px;
             box-shadow: var(--shadow-primary);
@@ -312,6 +353,8 @@
             gap: 20px;
             position: relative;
             overflow: hidden;
+            backdrop-filter: var(--backdrop-filter);
+            -webkit-backdrop-filter: var(--backdrop-filter);
         }
 
         .profile-container {
@@ -425,13 +468,15 @@
 
         .avatar-picker-modal {
             background: var(--bg-card);
-            border: 2px solid var(--border-color);
+            border: 1px solid var(--border-color);
             border-radius: 20px;
             width: 90%;
             max-width: 440px;
             padding: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: var(--shadow-primary);
             text-align: center;
+            backdrop-filter: var(--backdrop-filter);
+            -webkit-backdrop-filter: var(--backdrop-filter);
         }
 
         .avatar-picker-grid {
@@ -686,6 +731,17 @@
             100% { transform: scale(1.0); }
         }
 
+        .core-cell:hover .badge-tooltip {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.85; }
+            50% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.85; }
+        }
+
         .regions-stats-panel {
             width: 100%;
             display: grid;
@@ -721,12 +777,15 @@
 
         .filters-panel {
             background: var(--bg-card);
-            border: 2px solid var(--border-color);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 16px;
             display: flex;
             flex-direction: column;
             gap: 16px;
+            backdrop-filter: var(--backdrop-filter);
+            -webkit-backdrop-filter: var(--backdrop-filter);
+            box-shadow: var(--shadow-primary);
         }
 
         .filters-row {
@@ -807,11 +866,14 @@
 
         .category-wrapper {
             background: var(--bg-card);
-            border: 2px solid var(--border-color);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            backdrop-filter: var(--backdrop-filter);
+            -webkit-backdrop-filter: var(--backdrop-filter);
+            box-shadow: var(--shadow-primary);
         }
 
         .category-header {
@@ -888,12 +950,54 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         .achievement-card:hover {
             border-color: var(--border-color-active);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--shadow-glow);
+        }
+
+        .achievement-card.cat-academician:hover {
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+            border-color: #3498db;
+        }
+        .achievement-card.cat-professional:hover {
+            box-shadow: 0 6px 20px rgba(52, 73, 94, 0.4);
+            border-color: #34495e;
+        }
+        .achievement-card.cat-capitalist:hover {
+            box-shadow: 0 6px 20px rgba(241, 196, 15, 0.4);
+            border-color: #f1c40f;
+        }
+        .achievement-card.cat-athlete:hover {
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+            border-color: #2ecc71;
+        }
+        .achievement-card.cat-lover:hover {
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+            border-color: #e74c3c;
+        }
+        .achievement-card.cat-homemaker:hover {
+            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+            border-color: #9b59b6;
+        }
+        .achievement-card.cat-explorer:hover {
+            box-shadow: 0 6px 20px rgba(230, 126, 34, 0.4);
+            border-color: #e67e22;
+        }
+        .achievement-card.cat-creator:hover {
+            box-shadow: 0 6px 20px rgba(26, 188, 156, 0.4);
+            border-color: #1abc9c;
+        }
+        .achievement-card.cat-enthusiast:hover {
+            box-shadow: 0 6px 20px rgba(255, 118, 117, 0.4);
+            border-color: #ff7675;
+        }
+        .achievement-card.cat-visionary:hover {
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+            border-color: #6c5ce7;
         }
 
         .ach-checkbox-container {
@@ -1092,15 +1196,17 @@
 
         .custom-ach-modal {
             background: var(--bg-card);
-            border: 2px solid var(--border-color);
+            border: 1px solid var(--border-color);
             border-radius: 20px;
             width: 90%;
             max-width: 460px;
             padding: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: var(--shadow-primary);
             display: flex;
             flex-direction: column;
             gap: 16px;
+            backdrop-filter: var(--backdrop-filter);
+            -webkit-backdrop-filter: var(--backdrop-filter);
         }
 
         .form-group {
@@ -1157,15 +1263,17 @@
 
         .share-modal-content {
             background: var(--bg-card);
-            border: 2px solid var(--border-color);
+            border: 1px solid var(--border-color);
             border-radius: 20px;
             width: 100%;
             max-width: 440px;
             padding: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: var(--shadow-primary);
             display: flex;
             flex-direction: column;
             gap: 16px;
+            backdrop-filter: var(--backdrop-filter);
+            -webkit-backdrop-filter: var(--backdrop-filter);
             text-align: center;
         }
 
@@ -1233,17 +1341,19 @@
 
         .register-modal {
             background: var(--bg-card);
-            border: 2px solid var(--border-color);
+            border: 1px solid var(--border-color);
             border-radius: 24px;
             width: 90%;
             max-width: 420px;
             padding: 32px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            box-shadow: var(--shadow-primary);
             display: flex;
             flex-direction: column;
             gap: 20px;
             text-align: center;
             border-top: 4px solid var(--border-color-active);
+            backdrop-filter: var(--backdrop-filter);
+            -webkit-backdrop-filter: var(--backdrop-filter);
         }
 
         .register-welcome-icon {
@@ -1413,7 +1523,10 @@
                 <!-- FILTERS TOOLBAR -->
                 <div class="filters-panel">
                     <div class="filters-row">
-                        <input type="text" class="search-input" id="searchFilter" placeholder="搜尋成就名稱或說明描述..." oninput="handleFilterChange()" data-i18n-placeholder="searchPlaceholder">
+                        <div class="search-wrapper" style="position: relative; flex-grow: 2; min-width: 200px;">
+                            <input type="text" class="search-input" id="searchFilter" placeholder="搜尋成就名稱或說明描述..." oninput="handleFilterChange()" data-i18n-placeholder="searchPlaceholder" style="width: 100%; padding-right: 36px;">
+                            <button id="clearSearchBtn" onclick="clearSearch()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: transparent; border: none; color: var(--text-secondary); cursor: pointer; display: none; font-size: 16px; font-weight: bold; padding: 4px; transition: color 0.2s;" onmouseover="this.style.color='var(--accent-red)'" onmouseout="this.style.color='var(--text-secondary)'">✕</button>
+                        </div>
                         <select class="select-filter" id="diffFilter" onchange="handleFilterChange()">
                             <option value="all" data-i18n="filterAllDiff">所有難度</option>
                             <option value="1">★☆☆☆☆ (輕鬆)</option>
@@ -1484,6 +1597,15 @@
         <div class="avatar-picker-modal">
             <h3 data-i18n="avatarModalTitle">選擇頭像 Emojis</h3>
             <div class="avatar-picker-grid" id="avatarPickerGrid"></div>
+            
+            <div style="margin: 16px 0; border-top: 1px dashed var(--border-color); padding-top: 16px;">
+                <label for="customEmojiInput" style="font-size: 13px; font-weight: 700; color: var(--text-secondary); display: block; margin-bottom: 8px;" data-i18n="customEmojiLabel">或輸入自訂 Emoji：</label>
+                <div style="display: flex; gap: 8px; justify-content: center;">
+                    <input type="text" id="customEmojiInput" class="form-input" style="max-width: 120px; text-align: center; font-size: 20px; padding: 6px;" placeholder="🔥" maxlength="8" onkeydown="if(event.key === 'Enter') applyCustomEmoji()">
+                    <button class="btn btn-accent" onclick="applyCustomEmoji()" data-i18n="applyBtn">套用</button>
+                </div>
+            </div>
+            
             <button class="btn" onclick="closeAvatarPicker()" data-i18n="closeBtn">關閉</button>
         </div>
     </div>
@@ -1533,8 +1655,14 @@
                 <button class="social-btn x-twitter" onclick="shareToSocial('x')" title="Share to X">X</button>
             </div>
 
-            <div style="display: flex; gap: 12px; justify-content: center;">
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
                 <button class="btn btn-accent" onclick="downloadShareCard()" data-i18n="downloadPngBtn">下載 PNG 圖片</button>
+                <button class="btn" onclick="copyShareCardImage()" id="copyImageBtn">
+                    <span>📸</span> <span data-i18n="copyImageBtnText">複製圖片</span>
+                </button>
+                <button class="btn" onclick="copyTextReport()">
+                    <span>📝</span> <span data-i18n="copyTextReportBtnText">複製文字報告</span>
+                </button>
                 <button class="btn" onclick="closeShareModal()" data-i18n="cancelBtn">取消</button>
             </div>
         </div>
@@ -1601,16 +1729,16 @@
         const avatars = ["🌱", "🧑‍🚀", "🧑‍🎨", "🧑‍🔬", "🧑‍💼", "🏋️", "🧘", "🧗", "🎒", "💍", "🏡", "🍼", "🐶", "🐱", "🍀", "🚗", "🎸", "🍣", "☕", "🎉"];
 
         const badgeData = [
-            { id: "academician", name: "學海無涯", nameEn: "Academician", emoji: "🎓", desc: "解鎖 6 項學習與成長相關成就", descEn: "Unlock 6 learning & growth achievements", threshold: 6, catLink: "學習成長" },
-            { id: "professional", name: "職業菁英", nameEn: "Professional", emoji: "💼", desc: "解鎖 6 項工作與事業相關成就", descEn: "Unlock 6 work & career achievements", threshold: 6, catLink: "工作事業" },
-            { id: "capitalist", name: "理財達人", nameEn: "Capitalist", emoji: "💰", desc: "解鎖 6 項理財與資產相關成就", descEn: "Unlock 6 wealth & assets achievements", threshold: 6, catLink: "理財資產" },
-            { id: "athlete", name: "運動健將", nameEn: "Athlete", emoji: "🏃", desc: "解鎖 6 項健康與運動相關成就", descEn: "Unlock 6 health & sports achievements", threshold: 6, catLink: "健康運動" },
-            { id: "lover", name: "情場行者", nameEn: "Lover", emoji: "❤️", desc: "解鎖 6 項戀愛與人際相關成就", descEn: "Unlock 6 love & relations achievements", threshold: 6, catLink: "戀愛人際" },
-            { id: "homemaker", name: "溫馨港灣", nameEn: "Homemaker", emoji: "🏠", desc: "解鎖 6 項家庭與親情相關成就", descEn: "Unlock 6 family & kinship achievements", threshold: 6, catLink: "家庭親情" },
-            { id: "explorer", name: "星際探險家", nameEn: "Explorer", emoji: "🧭", desc: "解鎖 6 項旅行與探險相關成就", descEn: "Unlock 6 travel & adventure achievements", threshold: 6, catLink: "旅行探險" },
-            { id: "creator", name: "靈魂創作者", nameEn: "Creator", emoji: "🎨", desc: "解鎖 6 項藝術與創作相關成就", descEn: "Unlock 6 art & creation achievements", threshold: 6, catLink: "藝術創作" },
-            { id: "enthusiast", name: "生活玩家", nameEn: "Enthusiast", emoji: "🎸", desc: "解鎖 6 項生活與興趣相關成就", descEn: "Unlock 6 life & hobbies achievements", threshold: 6, catLink: "生活興趣" },
-            { id: "visionary", name: "夢想實踐家", nameEn: "Visionary", emoji: "🌌", desc: "解鎖 6 項終極與夢想相關成就", descEn: "Unlock 6 ultimate & dream achievements", threshold: 6, catLink: "終極夢想" }
+            { id: "academician", name: "學海無涯", nameEn: "Academician", emoji: "🎓", desc: "解鎖 8 項學習與成長相關成就", descEn: "Unlock 8 learning & growth achievements", threshold: 8, catLink: "學習成長" },
+            { id: "professional", name: "職業菁英", nameEn: "Professional", emoji: "💼", desc: "解鎖 8 項工作與事業相關成就", descEn: "Unlock 8 work & career achievements", threshold: 8, catLink: "工作事業" },
+            { id: "capitalist", name: "理財達人", nameEn: "Capitalist", emoji: "💰", desc: "解鎖 8 項理財與資產相關成就", descEn: "Unlock 8 wealth & assets achievements", threshold: 8, catLink: "理財資產" },
+            { id: "athlete", name: "運動健將", nameEn: "Athlete", emoji: "🏃", desc: "解鎖 8 項健康與運動相關成就", descEn: "Unlock 8 health & sports achievements", threshold: 8, catLink: "健康運動" },
+            { id: "lover", name: "情場行者", nameEn: "Lover", emoji: "❤️", desc: "解鎖 8 項戀愛與人際相關成就", descEn: "Unlock 8 love & relations achievements", threshold: 8, catLink: "戀愛人際" },
+            { id: "homemaker", name: "溫馨港灣", nameEn: "Homemaker", emoji: "🏠", desc: "解鎖 8 項家庭與親情相關成就", descEn: "Unlock 8 family & kinship achievements", threshold: 8, catLink: "家庭親情" },
+            { id: "explorer", name: "星際探險家", nameEn: "Explorer", emoji: "🧭", desc: "解鎖 8 項旅行與探險相關成就", descEn: "Unlock 8 travel & adventure achievements", threshold: 8, catLink: "旅行探險" },
+            { id: "creator", name: "靈魂創作者", nameEn: "Creator", emoji: "🎨", desc: "解鎖 8 項藝術與創作相關成就", descEn: "Unlock 8 art & creation achievements", threshold: 8, catLink: "藝術創作" },
+            { id: "enthusiast", name: "生活玩家", nameEn: "Enthusiast", emoji: "🎸", desc: "解鎖 8 項生活與興趣相關成就", descEn: "Unlock 8 life & hobbies achievements", threshold: 8, catLink: "生活興趣" },
+            { id: "visionary", name: "夢想實踐家", nameEn: "Visionary", emoji: "🌌", desc: "解鎖 8 項終極與夢想相關成就", descEn: "Unlock 8 ultimate & dream achievements", threshold: 8, catLink: "終極夢想" }
         ];
 
         const techStackData = [
@@ -1770,7 +1898,77 @@
             { id: 97, name: "面對終結 🕊️", nameEn: "Writing a Will 🕊️", desc: "在心平氣和且理智的狀態下撰寫一份正式生前遺囑，坦然審視生命的真實真諦。", descEn: "Calmly write your will/testament, reflecting on the meaning of life.", diff: 4, rarity: "Epic", cat: "終極夢想", badgeId: "visionary" },
             { id: 98, name: "願望清單 📝", nameEn: "Bucket List 📝", desc: "親手逐一劃掉人生願望清單（Bucket List）中累積超過 80% 的項目。", descEn: "Check off over 80% of the items on your personal bucket list.", diff: 5, rarity: "Legendary", cat: "終極夢想", badgeId: "visionary" },
             { id: 99, name: "圓滿無悔 🌟", nameEn: "Self-Actualization 🌟", desc: "站在生命某個歲月關口回首，發自內心地覺得「我的一生非常精彩且值得」。", descEn: "Look back and feel deeply that your life has been wonderful and complete.", diff: 5, rarity: "Legendary", cat: "終極夢想", badgeId: "visionary" },
-            { id: 100, name: "人生足跡大滿貫 🗺️", nameEn: "Life Grid Conqueror 🗺️", desc: "點亮人生領域版圖的所有 24 個生活節點，完成完美制霸！", descEn: "Light up all 24 nodes on the life domain grid map!", diff: 6, rarity: "Legendary", cat: "終極夢想" }
+            { id: 100, name: "人生足跡大滿貫 🗺️", nameEn: "Life Grid Conqueror 🗺️", desc: "點亮人生領域版圖的所有 24 個生活節點，完成完美制霸！", descEn: "Light up all 24 nodes on the life domain grid map!", diff: 6, rarity: "Legendary", cat: "終極夢想" },
+
+            // 學習與成長 (101-105)
+            { id: 101, name: "跨國共學 🌐", nameEn: "Global Study 🌐", desc: "與來自不同文化背景的學習者共同完成一門課程或專案。", descEn: "Complete a course or project with learners from different cultural backgrounds.", diff: 2, rarity: "Rare", cat: "學習成長", badgeId: "academician" },
+            { id: 102, name: "精準閱讀 ⏱️", nameEn: "Speed Reading ⏱️", desc: "挑戰在 24 小時內讀完並整理出一本工具書的精華心智圖。", descEn: "Finish a non-fiction book and summarize it into a mind map within 24 hours.", diff: 2, rarity: "Common", cat: "學習成長", badgeId: "academician" },
+            { id: 103, name: "學術發表 📝", nameEn: "Academic Publish 📝", desc: "在學術期刊、研討會，或專業論壇上發表自己撰寫的研究報告。", descEn: "Publish a research report in an academic journal, conference, or professional forum.", diff: 4, rarity: "Epic", cat: "學習成長", badgeId: "academician" },
+            { id: 104, name: "行動導師 🧭", nameEn: "Action Mentor 🧭", desc: "親自為至少 3 位學生或後輩提供長期的學習引導與生涯諮詢。", descEn: "Provide long-term learning guidance and career advice for at least 3 students/juniors.", diff: 3, rarity: "Rare", cat: "學習成長", badgeId: "academician" },
+            { id: 105, name: "終身學者 🧬", nameEn: "Lifelong Scholar 🧬", desc: "連續 5 年每年都學習並獲得至少一個全新領域的認證或學分。", descEn: "Consistently study and earn certifications in different fields for 5 consecutive years.", diff: 5, rarity: "Legendary", cat: "學習成長", badgeId: "academician" },
+
+            // 工作與事業 (106-110)
+            { id: 106, name: "遠端先鋒 💻", nameEn: "Remote Pioneer 💻", desc: "體驗並適應跨國/遠端辦公模式，甚至成為一名數位遊牧者。", descEn: "Experience cross-border/remote work, or work as a digital nomad.", diff: 3, rarity: "Rare", cat: "工作事業", badgeId: "professional" },
+            { id: 107, name: "團隊領袖 👥", nameEn: "Team Leader 👥", desc: "帶領 5 人以上的團隊成功交付一個重大專案或達成業績目標。", descEn: "Lead a team of 5+ people to successfully deliver a major project or target.", diff: 3, rarity: "Rare", cat: "工作事業", badgeId: "professional" },
+            { id: 108, name: "自我雇傭 💼", nameEn: "Solopreneur 💼", desc: "以自由職業或獨立開發者身份穩定生存滿一年，實現自雇自足。", descEn: "Stably survive for 1 year as a freelancer or independent developer.", diff: 4, rarity: "Epic", cat: "工作事業", badgeId: "professional" },
+            { id: 109, name: "破繭成蝶 🦋", nameEn: "Career Pivot 🦋", desc: "成功跨越職涯階梯，從基層崗位轉型為高階管理或具備決策權的核心角色。", descEn: "Transition successfully from a junior role to a senior executive or decision maker.", diff: 4, rarity: "Epic", cat: "工作事業", badgeId: "professional" },
+            { id: 110, name: "終身成就 🎖️", nameEn: "Lifetime Work 🎖️", desc: "在自己熱愛的行業中深耕超過 15 年，並產出對行業有深遠影響的作品。", descEn: "Work in your industry for 15+ years and produce highly impactful works.", diff: 5, rarity: "Legendary", cat: "工作事業", badgeId: "professional" },
+
+            // 理財與資產 (111-115)
+            { id: 111, name: "全球資產 🌎", nameEn: "Global Market 🌎", desc: "開立海外券商或複委託帳戶，買入全球頂尖企業的資產。", descEn: "Open a global trading account and invest in world-leading companies.", diff: 2, rarity: "Common", cat: "理財資產", badgeId: "capitalist" },
+            { id: 112, name: "稅務達人 🧾", nameEn: "Tax Optimization 🧾", desc: "深入研究稅務政策，合法合規地完成一次個人或家族的年度節稅規劃。", descEn: "Conduct a compliant annual tax planning for yourself or family.", diff: 3, rarity: "Rare", cat: "理財資產", badgeId: "capitalist" },
+            { id: 113, name: "股東權益 🗳️", nameEn: "Active Shareholder 🗳️", desc: "首次出席股東大會，或積極行使投票權參與公司治理決策。", descEn: "Attend a shareholder meeting or vote on corporate governance decisions.", diff: 2, rarity: "Common", cat: "理財資產", badgeId: "capitalist" },
+            { id: 114, name: "商業投資 🤝", nameEn: "Business Angel 🤝", desc: "以天使投資人或合夥人身份，出資支持一個具備潛力的初創品牌或專案。", descEn: "Invest in or partner with a promising startup brand or project.", diff: 4, rarity: "Epic", cat: "理財資產", badgeId: "capitalist" },
+            { id: 115, name: "財富傳承 🏰", nameEn: "Wealth Legacy 🏰", desc: "為自己或家族建立起永續的信託規劃或長期財富繼承防線。", descEn: "Establish a perpetual trust or long-term wealth inheritance plan for your family.", diff: 5, rarity: "Legendary", cat: "理財資產", badgeId: "capitalist" },
+
+            // 健康與運動 (116-120)
+            { id: 116, name: "鐵人三項 🚴", nameEn: "Triathlon 🚴", desc: "報名並成功完賽一次正式的鐵人三項（游泳、自行車、跑步）賽事。", descEn: "Register and successfully finish an official triathlon race.", diff: 4, rarity: "Epic", cat: "健康運動", badgeId: "athlete" },
+            { id: 117, name: "深海探索 🤿", nameEn: "Freediving 🤿", desc: "考取自由潛水或水肺潛水證照，探索神秘而美麗的海洋世界。", descEn: "Obtain a freediving or scuba diving certification and explore the ocean.", diff: 3, rarity: "Rare", cat: "健康運動", badgeId: "athlete" },
+            { id: 118, name: "體脂極限 ⚡", nameEn: "Body Shred ⚡", desc: "透過極致的飲食與訓練，將體脂肪率調整至個人歷史巔峰狀態。", descEn: "Reach your historic fitness peak in body fat percentage through rigorous training.", diff: 3, rarity: "Rare", cat: "健康運動", badgeId: "athlete" },
+            { id: 119, name: "止語閉關 🧘", nameEn: "Silent Retreat 🧘", desc: "參加一次 3 天以上的內觀、止語禪修或身心排毒閉關。", descEn: "Join a 3+ day vipassana, silent retreat, or mental detox retreat.", diff: 3, rarity: "Rare", cat: "健康運動", badgeId: "athlete" },
+            { id: 120, name: "馬拉松完賽 🏅", nameEn: "Full Marathon 🏅", desc: "挑戰並跑完人生第一場 42.195 公里的全程馬拉松。", descEn: "Challenge and complete your first 42.195 km full marathon.", diff: 5, rarity: "Legendary", cat: "健康運動", badgeId: "athlete" },
+
+            // 戀愛與人際 (121-125)
+            { id: 121, name: "深度溝通 💬", nameEn: "Vulnerable Chat 💬", desc: "與伴侶或密友進行一次真誠的對話，坦承內心最深處的脆弱。", descEn: "Have an open, vulnerable conversation and share your deepest feelings.", diff: 2, rarity: "Common", cat: "戀愛人際", badgeId: "lover" },
+            { id: 122, name: "共同歷險 🧗", nameEn: "Couple Adventure 🧗", desc: "與伴侶共同完成一項需要極大默契與互信的挑戰（如百岳或極限旅行）。", descEn: "Complete a challenge requiring deep mutual trust with your partner.", diff: 3, rarity: "Rare", cat: "戀愛人際", badgeId: "lover" },
+            { id: 123, name: "跨國之戀 ✈️", nameEn: "Cross-Border Love ✈️", desc: "體驗一段跨越文化、國籍或地域限制的跨國或遠距離戀愛。", descEn: "Experience a romantic relationship that crosses cultural or geographic boundaries.", diff: 3, rarity: "Rare", cat: "戀愛人際", badgeId: "lover" },
+            { id: 124, name: "完美慶典 🎉", nameEn: "Grand Celebration 🎉", desc: "共同策劃並舉辦一場精緻的紀念日派對、求婚儀式或婚禮，留下畢生回憶。", descEn: "Plan and host an anniversary, proposal, or wedding, leaving lifelong memories.", diff: 4, rarity: "Epic", cat: "戀愛人際", badgeId: "lover" },
+            { id: 125, name: "金婚相伴 👵", nameEn: "Decades Together 👵", desc: "與同一位伴侶攜手相伴度過 20 年以上的風雨人生路。", descEn: "Celebrate 20+ years of a loving and stable relationship with your partner.", diff: 5, rarity: "Legendary", cat: "戀愛人際", badgeId: "lover" },
+
+            // 家庭與親情 (126-130)
+            { id: 126, name: "家族尋根 📜", nameEn: "Family History 📜", desc: "拜訪長輩、整理老照片，編寫並記錄一份家族的家譜或口述歷史。", descEn: "Interview elders, organize photos, and document a family tree or history.", diff: 2, rarity: "Common", cat: "家庭親情", badgeId: "homemaker" },
+            { id: 127, name: "安頓父母 🏡", nameEn: "Parent's Comfort 🏡", desc: "幫助父母改造老屋（加裝無障礙設施、翻修廚衛）或為其規劃無憂的退休生活。", descEn: "Renovate parents' house for accessibility or plan their comfortable retirement.", diff: 3, rarity: "Rare", cat: "家庭親情", badgeId: "homemaker" },
+            { id: 128, name: "育兒里程碑 🍼", nameEn: "Kid's First Step 🍼", desc: "親眼見證並記錄孩子的第一次走路、第一次開口說話等重要成長瞬間。", descEn: "Witness and record your child's first step, first word, or major milestone.", diff: 4, rarity: "Epic", cat: "家庭親情", badgeId: "homemaker" },
+            { id: 129, name: "溫馨相聚 👨‍👩‍👧‍👦", nameEn: "Family Reunion 👨‍👩‍👧‍👦", desc: "策劃並成功舉辦一場超過 15 位親戚共同參與的家族大型聚會。", descEn: "Organize and host a grand family reunion with 15+ relatives.", diff: 3, rarity: "Rare", cat: "家庭親情", badgeId: "homemaker" },
+            { id: 130, name: "跨代守護 🛡️", nameEn: "Legacy Protection 🛡️", desc: "為家庭成員設立專屬的健康教育基金，提供跨世代的安全網。", descEn: "Set up a health/education trust fund to protect family generations.", diff: 5, rarity: "Legendary", cat: "家庭親情", badgeId: "homemaker" },
+
+            // 旅行與探險 (131-135)
+            { id: 131, name: "荒野求生 🪵", nameEn: "Wild Survival 🪵", desc: "在專業指導下完成一次無水無電、純靠野外技能的生存探險。", descEn: "Complete a survival challenge in the wild without electricity or running water.", diff: 3, rarity: "Rare", cat: "旅行探險", badgeId: "explorer" },
+            { id: 132, name: "鐵道壯遊 🚂", nameEn: "Railway Journey 🚂", desc: "體驗一次傳奇的長途火車之旅（如西伯利亞鐵路或瑞士冰河列車）。", descEn: "Take a legendary long-distance train journey, like the Glacier Express.", diff: 3, rarity: "Rare", cat: "旅行探險", badgeId: "explorer" },
+            { id: 133, name: "追尋歷史 🥾", nameEn: "Historic Pilgrimage 🥾", desc: "完成一條著名的歷史朝聖之路（如西班牙聖雅各之路，或台灣媽祖繞境全程）。", descEn: "Walk a famous pilgrimage path, like Camino de Santiago.", diff: 4, rarity: "Epic", cat: "旅行探險", badgeId: "explorer" },
+            { id: 134, name: "極地探險 ❄️", nameEn: "Polar Voyage ❄️", desc: "踏上北極圈或南極洲的土地，感受冰封世界的極致震撼。", descEn: "Travel to the Arctic Circle or Antarctica to experience the polar world.", diff: 5, rarity: "Legendary", cat: "旅行探險", badgeId: "explorer" },
+            { id: 135, name: "踏足百國 🗺️", nameEn: "Centurion Club 🗺️", desc: "一生中累積造訪超過 30 個不同的國家或地區，體驗全球多元文化。", descEn: "Travel to over 30 countries or regions in your lifetime.", diff: 5, rarity: "Legendary", cat: "旅行探險", badgeId: "explorer" },
+
+            // 藝術與創作 (136-140)
+            { id: 136, name: "設計專利 💡", nameEn: "Patent/Design 💡", desc: "獲得一項個人發明專利，或設計出受版權保護的獨特產品外觀。", descEn: "Acquire an invention patent or register a copyrighted product design.", diff: 4, rarity: "Epic", cat: "藝術創作", badgeId: "creator" },
+            { id: 137, name: "數位藝術 🎨", nameEn: "Digital Art 🎨", desc: "創作並發行自己的第一套 NFT、數位插畫系列或 3D 渲染作品。", descEn: "Create and publish a digital illustration series, NFT, or 3D art.", diff: 3, rarity: "Rare", cat: "藝術創作", badgeId: "creator" },
+            { id: 138, name: "戲劇公演 🎭", nameEn: "Theater Debut 🎭", desc: "參與一部話劇、音樂劇的幕前演出或幕後編導，並公開售票上映。", descEn: "Participate in a play or musical onstage or backstage with ticketed sales.", diff: 3, rarity: "Rare", cat: "藝術創作", badgeId: "creator" },
+            { id: 139, name: "開源貢獻 🌟", nameEn: "Open Source 🌟", desc: "自己建立的開源專案獲得超過 1000 個 Stars，或對全球知名專案做出貢獻。", descEn: "Build an open-source project with 1000+ stars, or contribute to famous repos.", diff: 4, rarity: "Epic", cat: "藝術創作", badgeId: "creator" },
+            { id: 140, name: "終身作品 📖", nameEn: "Magnum Opus 📖", desc: "耗時數年創作出一件自認能代表自己一生藝術追求的代表性巨作。", descEn: "Spend years creating a signature masterpiece that represents your life's pursuit.", diff: 5, rarity: "Legendary", cat: "藝術創作", badgeId: "creator" },
+
+            // 生活與興趣 (141-145)
+            { id: 141, name: "品酒大師 🍷", nameEn: "Sommelier 🍷", desc: "學習並通過 WSET 葡萄酒認證，或掌握清酒、精釀啤酒的品鑑藝術。", descEn: "Learn wine tasting and earn a WSET certificate, or master sake/craft beer appreciation.", diff: 2, rarity: "Common", cat: "生活興趣", badgeId: "enthusiast" },
+            { id: 142, name: "木工手作 🪚", nameEn: "Woodworking 🪚", desc: "親自動手用原木打造一件實用的桌椅、櫃子或樂器，感受手作的溫度。", descEn: "Build a piece of solid wood furniture or instrument by hand.", diff: 3, rarity: "Rare", cat: "生活興趣", badgeId: "enthusiast" },
+            { id: 143, name: "藍帶大廚 👨‍🍳", nameEn: "Culinary Master 👨‍🍳", desc: "學會製作複雜的經典法式甜點、日本懷石料理或傳統宮廷大菜。", descEn: "Master complex classic French desserts, Kaiseki, or traditional feast dishes.", diff: 3, rarity: "Rare", cat: "生活興趣", badgeId: "enthusiast" },
+            { id: 144, name: "密室逃脫 🔑", nameEn: "Escape Room 🔑", desc: "通關超過 20 個不同主題的密室逃脫或實境解謎遊戲。", descEn: "Complete more than 20 different escape rooms or real-life puzzle games.", diff: 2, rarity: "Common", cat: "生活興趣", badgeId: "enthusiast" },
+            { id: 145, name: "終極收藏 🏺", nameEn: "Ultimate Curator 🏺", desc: "將自己的收藏品整理成小型個人陳列室，並邀請同好參觀分享。", descEn: "Organize your collections into a mini home museum and invite guests.", diff: 3, rarity: "Rare", cat: "生活興趣", badgeId: "enthusiast" },
+
+            // 終極與夢想 (146-150)
+            { id: 146, name: "空間邊緣 🚀", nameEn: "Edge of Space 🚀", desc: "體驗一次太空邊緣旅行，或親身乘坐戰鬥機飛越平流層。", descEn: "Experience an edge-of-space journey or fly in a fighter jet in the stratosphere.", diff: 5, rarity: "Legendary", cat: "終極夢想", badgeId: "visionary" },
+            { id: 147, name: "創立基金 💸", nameEn: "Charity Foundation 💸", desc: "以自己或家族的名義成立一個微型公益基金，資助需要幫助的弱勢群體。", descEn: "Establish a micro-charity trust in your name to support vulnerable groups.", diff: 4, rarity: "Epic", cat: "終極夢想", badgeId: "visionary" },
+            { id: 148, name: "一生無悔 ☯️", nameEn: "No Regrets ☯️", desc: "完成了人生清單中所有最核心、最重要的十個終極願望。", descEn: "Check off all 10 core items on your personal bucket list.", diff: 5, rarity: "Legendary", cat: "終極夢想", badgeId: "visionary" },
+            { id: 149, name: "世紀見證 👴", nameEn: "Century Witness 👴", desc: "健康快樂地活過 80 歲，親眼見證橫跨兩個世紀的世界變遷。", descEn: "Live past 80 in good health and witness cross-century changes of the world.", diff: 4, rarity: "Epic", cat: "終極夢想", badgeId: "visionary" },
+            { id: 150, name: "精神永存 📜", nameEn: "Legacy Left 📜", desc: "撰寫並出版一部自傳或回憶錄，將自己一生的智慧與教訓完整傳留世間。", descEn: "Write and publish an autobiography, passing down your life lessons.", diff: 5, rarity: "Legendary", cat: "終極夢想", badgeId: "visionary" }
         ];
 
         // --- 3. App State Variables ---
@@ -1838,6 +2036,7 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             
+            const shapes = ['circle', 'square', 'diamond'];
             confettiParticles = [];
             for (let i = 0; i < 90; i++) {
                 confettiParticles.push({
@@ -1845,11 +2044,14 @@
                     y: canvas.height * 0.75,
                     vx: (Math.random() - 0.5) * 18,
                     vy: -Math.random() * 18 - 8,
-                    r: Math.random() * 5 + 3,
+                    r: Math.random() * 6 + 4,
                     color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
                     alpha: 1,
                     gravity: 0.4,
-                    decay: Math.random() * 0.02 + 0.015
+                    decay: Math.random() * 0.02 + 0.015,
+                    shape: shapes[Math.floor(Math.random() * shapes.length)],
+                    rotation: Math.random() * Math.PI * 2,
+                    rotationSpeed: (Math.random() - 0.5) * 0.3
                 });
             }
             
@@ -1872,11 +2074,29 @@
                     p.y += p.vy;
                     p.vy += p.gravity;
                     p.alpha -= p.decay;
+                    p.rotation += p.rotationSpeed;
+
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation);
                     ctx.fillStyle = p.color;
                     ctx.globalAlpha = p.alpha;
+                    
                     ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fill();
+                    if (p.shape === 'square') {
+                        ctx.fillRect(-p.r, -p.r, p.r * 2, p.r * 2);
+                    } else if (p.shape === 'diamond') {
+                        ctx.moveTo(0, -p.r);
+                        ctx.lineTo(p.r, 0);
+                        ctx.lineTo(0, p.r);
+                        ctx.lineTo(-p.r, 0);
+                        ctx.closePath();
+                        ctx.fill();
+                    } else { // circle
+                        ctx.arc(0, 0, p.r, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    ctx.restore();
                     active = true;
                 }
             });
@@ -1949,6 +2169,7 @@
                     <div class="toast-title">${title}</div>
                     <div class="toast-desc">${desc}</div>
                 </div>
+                <div class="toast-progress"></div>
             `;
             container.appendChild(toast);
             
@@ -2118,16 +2339,18 @@
             let level = Math.floor(count / 10);
             let title = "";
             
-            if (count >= 0 && count <= 10) title = getTranslation("levelTitle0", "🌱 人生新手");
-            else if (count >= 11 && count <= 20) title = getTranslation("levelTitle1", "🎒 初涉塵世");
-            else if (count >= 21 && count <= 30) title = getTranslation("levelTitle2", "🚗 獨立行者");
-            else if (count >= 31 && count <= 40) title = getTranslation("levelTitle3", "💼 職場主力");
-            else if (count >= 41 && count <= 50) title = getTranslation("levelTitle4", "💰 理財能手");
-            else if (count >= 51 && count <= 60) title = getTranslation("levelTitle5", "⛰️ 探險先鋒");
-            else if (count >= 61 && count <= 70) title = getTranslation("levelTitle6", "🎨 靈感大師");
-            else if (count >= 71 && count <= 80) title = getTranslation("levelTitle7", "🏡 溫馨守護者");
-            else if (count >= 81 && count <= 90) title = getTranslation("levelTitle8", "🌟 人生贏家");
-            else title = getTranslation("levelTitle9", "🧙‍♂️ 傳奇生命大師");
+            if (level === 0) title = getTranslation("levelTitle0", "🌱 人生新手");
+            else if (level === 1) title = getTranslation("levelTitle1", "🎒 初涉塵世");
+            else if (level === 2) title = getTranslation("levelTitle2", "🚗 獨立行者");
+            else if (level === 3) title = getTranslation("levelTitle3", "💼 職場主力");
+            else if (level === 4) title = getTranslation("levelTitle4", "💰 理財能手");
+            else if (level === 5) title = getTranslation("levelTitle5", "⛰️ 探險先鋒");
+            else if (level === 6) title = getTranslation("levelTitle6", "🎨 靈感大師");
+            else if (level === 7) title = getTranslation("levelTitle7", "🏡 溫馨守護者");
+            else if (level >= 8 && level <= 10) title = getTranslation("levelTitle8", "🌟 人生贏家");
+            else if (level >= 11 && level <= 13) title = getTranslation("levelTitle9", "🧙‍♂️ 傳奇生命大師");
+            else if (level >= 14 && level <= 15) title = getTranslation("levelTitle10", "👑 命運主宰者");
+            else title = getTranslation("levelTitle11", "🌌 宇宙覺醒超凡者");
 
             return { level, title };
         }
@@ -2192,6 +2415,8 @@
                 "levelTitle7": "🏡 溫馨守護者",
                 "levelTitle8": "🌟 人生贏家",
                 "levelTitle9": "🧙‍♂️ 傳奇生命大師",
+                "levelTitle10": "👑 命運主宰者",
+                "levelTitle11": "🌌 宇宙覺醒超凡者",
                 "resetConfirm": "⚠️ 確定要重置所有成就與生活領域足跡嗎？此動作無法復原！",
                 "resetTitle": "進度重置",
                 "resetDesc": "已清除所有勾選記錄",
@@ -2222,7 +2447,14 @@
                 "unlockBadgeToastTitle": "🏆 徽章解鎖！",
                 "unlockBadgeToastDesc": "您解鎖了【{badgeName}】徽章！",
                 "unlockAchToastTitle": "🌟 成就解鎖！",
-                "unlockAchToastDesc": "【{achName}】解鎖成功！"
+                "unlockAchToastDesc": "【{achName}】解鎖成功！",
+                "copyImageBtnText": "複製圖片",
+                "copyTextReportBtnText": "複製文字報告",
+                "copyImageSuccess": "圖片複製成功，快去黏貼分享吧！",
+                "copyTextSuccess": "文字報告已複製到剪貼簿！",
+                "copyFailed": "複製失敗，瀏覽器可能不支援",
+                "customEmojiLabel": "或輸入自訂 Emoji：",
+                "applyBtn": "套用"
             },
             "en": {
                 "title": "Life Achievement System",
@@ -2282,6 +2514,8 @@
                 "levelTitle7": "🏡 Home Guardian",
                 "levelTitle8": "🌟 Life Winner",
                 "levelTitle9": "🧙‍♂️ Legendary Life Master",
+                "levelTitle10": "👑 Sovereign of Destiny",
+                "levelTitle11": "🌌 Cosmic Ascendant",
                 "resetConfirm": "⚠️ Are you sure you want to reset all achievements and life domains? This cannot be undone!",
                 "resetTitle": "Progress Reset",
                 "resetDesc": "Cleared all checked milestones",
@@ -2312,7 +2546,14 @@
                 "unlockBadgeToastTitle": "🏆 Badge Unlocked!",
                 "unlockBadgeToastDesc": "You unlocked the [{badgeName}] badge!",
                 "unlockAchToastTitle": "🌟 Milestone Unlocked!",
-                "unlockAchToastDesc": "[{achName}] unlocked successfully!"
+                "unlockAchToastDesc": "[{achName}] unlocked successfully!",
+                "copyImageBtnText": "Copy Image",
+                "copyTextReportBtnText": "Copy Text Report",
+                "copyImageSuccess": "Card image copied to clipboard!",
+                "copyTextSuccess": "Text report copied to clipboard!",
+                "copyFailed": "Copy failed. Browser may not support clipboard writing.",
+                "customEmojiLabel": "Or Enter Custom Emoji:",
+                "applyBtn": "Apply"
             }
         };
 
@@ -2405,11 +2646,41 @@
                         mapContainer.appendChild(cell);
                     } else {
                         // Center/Empty spacer cell
-                        const spacer = document.createElement('div');
-                        spacer.className = 'tech-cell empty-cell';
-                        spacer.style.gridRow = `${r} / span 1`;
-                        spacer.style.gridColumn = `${c} / span 1`;
-                        mapContainer.appendChild(spacer);
+                        if (r === 3 && c === 3) {
+                            const coreCell = document.createElement('div');
+                            coreCell.className = 'tech-cell core-cell';
+                            coreCell.style.gridRow = `${r} / span 1`;
+                            coreCell.style.gridColumn = `${c} / span 1`;
+                            coreCell.style.position = 'relative';
+                            coreCell.style.cursor = 'default';
+                            coreCell.style.border = '1px solid var(--border-color-active)';
+                            coreCell.style.boxShadow = '0 0 15px var(--shadow-glow)';
+                            coreCell.style.background = 'radial-gradient(circle, rgba(230,126,34,0.15) 0%, rgba(24,28,45,0.4) 100%)';
+                            coreCell.style.overflow = 'visible';
+                            
+                            const coreTitle = appState.language === 'en' ? 'Core Self' : '自我核心';
+                            coreCell.innerHTML = `
+                                <span style="font-size: 14px; animation: pulse 2.0s infinite ease-in-out; display: inline-block;">🧘</span>
+                                <span style="font-size: 9px; font-weight: 800; margin-top:2px;">${coreTitle}</span>
+                            `;
+                            
+                            const tooltip = document.createElement('div');
+                            tooltip.className = 'badge-tooltip';
+                            tooltip.style.bottom = '125%';
+                            tooltip.style.left = '50%';
+                            tooltip.style.transform = 'translateX(-50%) translateY(10px)';
+                            tooltip.style.width = '170px';
+                            coreCell.appendChild(tooltip);
+                            
+                            techCellMap['core_self'] = coreCell;
+                            mapContainer.appendChild(coreCell);
+                        } else {
+                            const spacer = document.createElement('div');
+                            spacer.className = 'tech-cell empty-cell';
+                            spacer.style.gridRow = `${r} / span 1`;
+                            spacer.style.gridColumn = `${c} / span 1`;
+                            mapContainer.appendChild(spacer);
+                        }
                     }
                 }
             }
@@ -2425,6 +2696,27 @@
                 cell.classList.toggle('mastered', isMastered);
                 cell.setAttribute('aria-pressed', String(isMastered));
             });
+
+            // Update core self cell tooltip
+            const coreCell = techCellMap['core_self'];
+            if (coreCell) {
+                const tooltip = coreCell.querySelector('.badge-tooltip');
+                if (tooltip) {
+                    const totalTechs = techStackData.length;
+                    const masteredCount = appState.masteredTech.length;
+                    const pct = Math.round((masteredCount / totalTechs) * 100);
+                    
+                    const tooltipTitle = appState.language === 'en' ? 'Core Self' : '自我核心';
+                    const tooltipDesc = appState.language === 'en' 
+                        ? `Grid Mastery: ${pct}% (${masteredCount}/${totalTechs})`
+                        : `版圖掌握度: ${pct}% (${masteredCount}/${totalTechs})`;
+                    
+                    tooltip.innerHTML = `
+                        <div class="badge-tooltip-title">${tooltipTitle}</div>
+                        <div class="badge-tooltip-desc">${tooltipDesc}</div>
+                    `;
+                }
+            }
 
             renderDomainProgress();
         }
@@ -2656,7 +2948,7 @@
                 inCat.forEach(ach => {
                     const card = document.createElement('div');
                     const isHidden = ach.diff === 6;
-                    card.className = `achievement-card ${isHidden ? 'hidden-ach' : ''}`;
+                    card.className = `achievement-card cat-${ach.badgeId} ${isHidden ? 'hidden-ach' : ''}`;
                     card.setAttribute('role', 'checkbox');
                     card.onclick = () => toggleAchievement(ach.id);
 
@@ -2745,13 +3037,41 @@
         }
 
         // --- 14. Filters Handlers ---
+        let searchDebounceTimeout = null;
         function handleFilterChange() {
-            activeFilters.search = document.getElementById('searchFilter').value.toLowerCase().trim();
+            const searchVal = document.getElementById('searchFilter').value;
+            const newSearch = searchVal.toLowerCase().trim();
+            
+            // Toggle clear button
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (clearBtn) {
+                clearBtn.style.display = searchVal ? 'block' : 'none';
+            }
+            
             activeFilters.diff = document.getElementById('diffFilter').value;
             activeFilters.rarity = document.getElementById('rarityFilter').value;
             activeFilters.status = document.getElementById('statusFilter').value;
 
-            filterAchievementsList();
+            if (newSearch === activeFilters.search) {
+                filterAchievementsList();
+            } else {
+                if (searchDebounceTimeout) clearTimeout(searchDebounceTimeout);
+                searchDebounceTimeout = setTimeout(() => {
+                    activeFilters.search = newSearch;
+                    filterAchievementsList();
+                }, 200);
+            }
+        }
+        
+        function clearSearch() {
+            const searchInput = document.getElementById('searchFilter');
+            if (searchInput) {
+                searchInput.value = '';
+                activeFilters.search = '';
+                const clearBtn = document.getElementById('clearSearchBtn');
+                if (clearBtn) clearBtn.style.display = 'none';
+                filterAchievementsList();
+            }
         }
 
         function filterAchievementsList() {
@@ -3247,6 +3567,96 @@
             showNotification(title, desc, "📸");
         }
 
+        function copyShareCardImage() {
+            const canvas = document.getElementById('sharingPreviewCanvas');
+            if (!canvas) return;
+            
+            try {
+                canvas.toBlob(blob => {
+                    if (!blob) {
+                        showNotification(getTranslation("copyFailed"), "", "⚠️");
+                        return;
+                    }
+                    navigator.clipboard.write([
+                        new ClipboardItem({ 'image/png': blob })
+                    ]).then(() => {
+                        closeShareModal();
+                        showNotification(getTranslation("copyImageSuccess"), "", "📸");
+                    }).catch(err => {
+                        console.error("Clipboard image copy failed:", err);
+                        showNotification(getTranslation("copyFailed"), "", "⚠️");
+                    });
+                }, 'image/png');
+            } catch (e) {
+                console.error("ClipboardItem error:", e);
+                showNotification(getTranslation("copyFailed"), "", "⚠️");
+            }
+        }
+
+        function copyTextReport() {
+            const totals = getAchievementTotals();
+            const levelDetails = getLevelDetails(totals.completed);
+            const lang = appState.language || 'zh-TW';
+            
+            let unlockedBadges = [];
+            badgeData.forEach(badge => {
+                const stat = getBadgeProgress(badge.id);
+                if (stat.unlocked) {
+                    const name = getBadgeName(badge);
+                    unlockedBadges.push(`${badge.emoji} ${name}`);
+                }
+            });
+            
+            const unlockedAchs = achievementsData.filter(a => appState.checkedAchievements.includes(a.id))
+                .concat(appState.customAchievements.filter(c => c.done).map(c => ({ ...c, rarity: 'Custom', cat: '自訂' })));
+            unlockedAchs.sort((a, b) => b.diff - a.diff || b.id - a.id);
+            const top3 = unlockedAchs.slice(0, 3);
+            
+            let report = "";
+            if (lang === 'en') {
+                report += `🌟 ${appState.playerName}'s Life Achievements Report 🌟\n`;
+                report += `🏆 Title: ${levelDetails.title} (LV ${levelDetails.level})\n`;
+                report += `📊 Milestones Unlocked: ${totals.completed} / ${totals.total} (${Math.round(totals.completed / totals.total * 100)}%)\n`;
+                report += `🧭 Life Domains Explored: ${appState.masteredTech.length} / 24 (${Math.round(appState.masteredTech.length / 24 * 100)}%)\n`;
+                if (unlockedBadges.length > 0) {
+                    report += `🎖️ Badges Showcase: ${unlockedBadges.join(', ')}\n`;
+                }
+                if (top3.length > 0) {
+                    report += `✨ Proudest Milestones:\n`;
+                    top3.forEach((ach, index) => {
+                        const name = ach.nameEn || ach.name;
+                        const desc = ach.descEn || ach.desc;
+                        report += `  ${index + 1}. [${name}] - ${desc}\n`;
+                    });
+                }
+                report += `\n📍 Record your life achievements here: ${SHARE_URL}\n`;
+            } else {
+                report += `🌟 【${appState.playerName}】的人生成就紀錄報告 🌟\n`;
+                report += `🏆 目前境界：${levelDetails.title} (LV ${levelDetails.level})\n`;
+                report += `📊 解鎖成就數：${totals.completed} / ${totals.total} 項 (達成率 ${Math.round(totals.completed / totals.total * 100)}%)\n`;
+                report += `🧭 涉足生活領域：${appState.masteredTech.length} / 24 大版圖 (掌握度 ${Math.round(appState.masteredTech.length / 24 * 100)}%)\n`;
+                if (unlockedBadges.length > 0) {
+                    report += `🎖️ 榮譽勳章牆：${unlockedBadges.join(', ')}\n`;
+                }
+                if (top3.length > 0) {
+                    report += `✨ 最引以為傲的里程碑：\n`;
+                    top3.forEach((ach, index) => {
+                        const desc = ach.desc || "無描述";
+                        report += `  ${index + 1}. 【${ach.name}】 - ${desc}\n`;
+                    });
+                }
+                report += `\n📍 在此點亮你的人生成就網格：${SHARE_URL}\n`;
+            }
+            
+            navigator.clipboard.writeText(report).then(() => {
+                closeShareModal();
+                showNotification(getTranslation("copyTextSuccess"), "", "📋");
+            }).catch(err => {
+                console.error("Text copy failed:", err);
+                showNotification(getTranslation("copyFailed"), "", "⚠️");
+            });
+        }
+
         // --- 18. Social Share Intents ---
         const SHARE_URL = window.location.href;
 
@@ -3315,6 +3725,15 @@
                 document.getElementById('registerAvatar').textContent = emoji;
             }
             closeAvatarPicker();
+        }
+
+        function applyCustomEmoji() {
+            const input = document.getElementById('customEmojiInput');
+            if (!input) return;
+            const val = input.value.trim();
+            if (!val) return;
+            selectAvatar(val);
+            input.value = '';
         }
 
         // --- 20. Main UI Synchronization Manager ---
