@@ -1303,26 +1303,25 @@
         }
 
         .social-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: #fff;
+            gap: 6px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1.5px solid var(--border-color);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 13px;
             cursor: pointer;
-            border: none;
-            transition: transform 0.2s;
+            transition: all 0.2s;
         }
 
         .social-btn:hover {
-            transform: scale(1.1);
+            border-color: var(--border-color-active) !important;
+            background: var(--bg-card-hover) !important;
+            transform: translateY(-2px);
         }
-
-        .social-btn.threads { background-color: #000000; }
-        .social-btn.facebook { background-color: #1877f2; }
-        .social-btn.x-twitter { background-color: #14171a; }
 
         /* Welcome/Register Modal */
         .register-modal-backdrop {
@@ -1672,28 +1671,37 @@
     <div class="share-modal-backdrop" id="shareModalBackdrop" onclick="if(event.target === this) closeShareModal()">
         <div class="share-modal-content" onclick="event.stopPropagation()">
             <h3 data-i18n="shareModalTitle">📸 生成個人成就卡</h3>
-            <p style="font-size: 13px; color: var(--text-secondary); margin: 0;" data-i18n="shareModalDesc">您可以將此圖卡分享到社交媒體，炫耀您的人生歷練！</p>
+            <p style="font-size: 13px; color: var(--text-secondary); margin: 0 0 16px 0;" data-i18n="shareModalDesc">您可以將此圖卡分享到社交媒體，炫耀您的人生歷練！</p>
             
-            <div class="sharing-preview-canvas-wrapper">
+            <div class="sharing-preview-canvas-wrapper" style="margin-bottom: 16px;">
                 <canvas id="sharingPreviewCanvas" width="800" height="1200"></canvas>
             </div>
 
-            <div class="social-share-buttons">
-                <button class="social-btn threads" onclick="shareToSocial('threads')" title="Share to Threads">T</button>
-                <button class="social-btn facebook" onclick="shareToSocial('facebook')" title="Share to Facebook">F</button>
-                <button class="social-btn x-twitter" onclick="shareToSocial('x')" title="Share to X">X</button>
+            <div class="social-share-row" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; width: 100%;">
+                <button class="social-btn threads" onclick="shareToSocial('threads')" title="Share to Threads" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 8px; border: 1.5px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s;">
+                    <span>🧵</span> Threads
+                </button>
+                <button class="social-btn facebook" onclick="shareToSocial('facebook')" title="Share to Facebook" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 8px; border: 1.5px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s;">
+                    <span>👤</span> Facebook
+                </button>
+                <button class="social-btn x-twitter" onclick="shareToSocial('x')" title="Share to X" style="display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 8px; border: 1.5px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s;">
+                    <span>🐦</span> X / Twitter
+                </button>
             </div>
 
-            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
-                <button class="btn btn-accent" onclick="downloadShareCard()" data-i18n="downloadPngBtn">下載 PNG 圖片</button>
-                <button class="btn" onclick="copyShareCardImage()" id="copyImageBtn">
+            <div class="share-actions-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 12px; width: 100%;">
+                <button class="btn btn-accent" onclick="downloadShareCard()" style="justify-content: center; gap: 6px; font-weight: 700; width: 100%;">
+                    <span>💾</span> <span data-i18n="downloadPngBtn">下載 PNG 圖片</span>
+                </button>
+                <button class="btn" onclick="copyShareCardImage()" id="copyImageBtn" style="justify-content: center; gap: 6px; font-weight: 700; width: 100%;">
                     <span>📸</span> <span data-i18n="copyImageBtnText">複製圖片</span>
                 </button>
-                <button class="btn" onclick="copyTextReport()">
+                <button class="btn" onclick="copyTextReport()" style="justify-content: center; gap: 6px; font-weight: 700; width: 100%;">
                     <span>📝</span> <span data-i18n="copyTextReportBtnText">複製文字報告</span>
                 </button>
-                <button class="btn" onclick="closeShareModal()" data-i18n="cancelBtn">取消</button>
             </div>
+
+            <button class="btn" onclick="closeShareModal()" data-i18n="cancelBtn" style="width: 100%; justify-content: center; font-weight: 700;">取消</button>
         </div>
     </div>
 
