@@ -2271,6 +2271,50 @@
                 document.getElementById('registerPlayerName').value = '';
                 document.getElementById('registerAvatar').textContent = "🌱";
             }
+            
+            syncGridFromAchievements();
+        }
+
+        function syncGridFromAchievements() {
+            const checked = new Set(appState.checkedAchievements);
+            const gridMapping = {
+                diet: [33, 119],
+                fitness: [37, 40],
+                marathon: [116, 120],
+                earlysleep: [32],
+                meditation: [39],
+                graduation: [2],
+                firstjob: [13],
+                promotion: [14],
+                sidehustle: [15],
+                entrepreneur: [17],
+                cooking: [33, 143],
+                instrument: [34, 72, 74],
+                language: [5, 35, 123],
+                license: [81],
+                saving: [24],
+                investment: [12, 25],
+                buycar: [111],
+                buyhouse: [112],
+                financialfree: [30],
+                friendship: [41, 42],
+                relationship: [43],
+                marriage: [23, 46],
+                parenting: [24, 47],
+                familytrip: [25, 54]
+            };
+            
+            Object.keys(gridMapping).forEach(gridId => {
+                const mappedIds = gridMapping[gridId];
+                const shouldBeMastered = mappedIds.some(id => checked.has(id));
+                const idx = appState.masteredTech.indexOf(gridId);
+                
+                if (shouldBeMastered && idx === -1) {
+                    appState.masteredTech.push(gridId);
+                } else if (!shouldBeMastered && idx !== -1) {
+                    appState.masteredTech.splice(idx, 1);
+                }
+            });
         }
 
         function resetAllProgress() {
@@ -2776,26 +2820,43 @@
         }
 
         function toggleTechNode(techId) {
-            const idx = appState.masteredTech.indexOf(techId);
-            const techObj = techStackData.find(t => t.id === techId);
-            const isAddition = idx === -1;
-
-            if (isAddition) {
-                appState.masteredTech.push(techId);
+            const gridMapping = {
+                diet: [33, 119],
+                fitness: [37, 40],
+                marathon: [116, 120],
+                earlysleep: [32],
+                meditation: [39],
+                graduation: [2],
+                firstjob: [13],
+                promotion: [14],
+                sidehustle: [15],
+                entrepreneur: [17],
+                cooking: [33, 143],
+                instrument: [34, 72, 74],
+                language: [5, 35, 123],
+                license: [81],
+                saving: [24],
+                investment: [12, 25],
+                buycar: [111],
+                buyhouse: [112],
+                financialfree: [30],
+                friendship: [41, 42],
+                relationship: [43],
+                marriage: [23, 46],
+                parenting: [24, 47],
+                familytrip: [25, 54]
+            };
+            
+            const achIds = gridMapping[techId];
+            if (achIds && achIds.length > 0) {
+                const primaryAchId = achIds[0];
                 const cell = techCellMap[techId];
-                if (cell) {
+                if (cell && !appState.masteredTech.includes(techId)) {
                     cell.classList.add('stamp-anim');
                     cell.addEventListener('animationend', () => cell.classList.remove('stamp-anim'), { once: true });
                 }
-                const name = appState.language === 'en' ? techObj.nameEn : techObj.name;
-                const title = getTranslation("unlockAchToastTitle");
-                const desc = getTranslation("unlockAchToastDesc").replace("{achName}", name);
-                showNotification(title, desc, "🌱");
-            } else {
-                appState.masteredTech.splice(idx, 1);
+                toggleAchievement(primaryAchId);
             }
-            saveState();
-            updateUI();
         }
 
         function renderDomainProgress() {
@@ -3867,6 +3928,7 @@
         }
 
         function updateUI() {
+            syncGridFromAchievements();
             updateStaticTranslations();
 
             const totals = getAchievementTotals();
